@@ -266,6 +266,10 @@ def contact():
 
     return render_template('contact.html')
 
+@app.route('/supplier')
+def supplier():
+
+    return render_template('suppliers.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
