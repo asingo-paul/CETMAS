@@ -6,24 +6,26 @@ from werkzeug.utils import secure_filename
 import os 
 from datetime import timedelta
 from flask_mail import Mail, Message
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
 
-app.secret_key = 'a26ff7f3fb306b66060decfcd5b39aeb06cde1511730f4f88b2ac441986c5c91'
+app.secret_key = os.environ.get('FLASK_SECRET_KEY')
 
 # MySQL configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1951'
-app.config['MYSQL_DB'] = 'comfeex'
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 
+# Email configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'asingopaul66@gmail.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = 'puhy kyjo sboq phlj'     # Use an app-specific password
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')    # Use an app-specific password
 
 mail = Mail(app)
 # Session duration config
