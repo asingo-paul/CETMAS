@@ -271,5 +271,13 @@ def supplier():
 
     return render_template('suppliers.html')
 
+
+
+@app.route("/better")
+def better():
+
+    return "<h2>hello buddy</h2>"
+
+
 if __name__ == '__main__':
     app.run(debug=True)
