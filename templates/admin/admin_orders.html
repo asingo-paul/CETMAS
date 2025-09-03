@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order History - Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #003366;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #002244;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #004080;
+    }
+
+    .table-section {
+      padding: 40px 25px;
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: white;
+      color: #003366;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .table-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.6em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #003366;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.95em;
+      color: #cccccc;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .table-section {
+        margin: 20px;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      tr {
+        margin-bottom: 15px;
+      }
+
+      th, td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      th::before, td::before {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      th:nth-of-type(1)::before { content: "User"; }
+      th:nth-of-type(2)::before { content: "Product"; }
+      th:nth-of-type(3)::before { content: "Quantity"; }
+      th:nth-of-type(4)::before { content: "Date"; }
+
+      td:nth-of-type(1)::before { content: "User"; }
+      td:nth-of-type(2)::before { content: "Product"; }
+      td:nth-of-type(3)::before { content: "Quantity"; }
+      td:nth-of-type(4)::before { content: "Date"; }
+    }
+
+
+    .btn {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-confirm {
+      background-color: #28a745; /* green */
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background-color: #218838;
+    }
+
+    .btn-delete {
+      background-color: #dc3545; /* red */
+      color: white;
+      margin-left: 6px;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Comfeex Admin</div>
+    <nav>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('add_product') }}">Add Product</a>
+      <a href="{{ url_for('admin_orders') }}">Orders</a>
+      <a href="{{ url_for('admin_inventory') }}">Inventory</a>
+      <a href="{{ url_for('suppliers') }}">Suppliers</a>
+      <a href="{{ url_for('logout_admin') }}" class="btn btn-danger">Logout</a>
+
+    </nav>
+  </header>
+
+  <section class="table-section">
+  <h2>Customer Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>County</th>
+        <th>Town</th>
+        <th>Products</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user_id, order in grouped_orders.items() %}
+      <tr>
+        <td>{{ order.user }}</td>
+        <td>{{ order.county }}</td>
+        <td>{{ order.town }}</td>
+        <td>{{ order.products }}</td>
+        <td>{{ order.date }}</td>
+        <td>
+          {% if order.confirmed %}
+            ✅
+          {% else %}
+          <form method="POST" action="{{ url_for('confirm_order', order_id=order.id) }}" style="display:inline;" onsubmit="confirmAction(event, 'Are you sure you want to confirm this order?')">
+            <button type="submit" class="btn btn-confirm">Confirm</button>
+          </form>
+          {% endif %}
+          <form method="POST" action="{{ url_for('delete_order', order_id=order.id) }}" style="display:inline;">
+            <button type="submit" class="btn btn-delete">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</section>
+
+<script>
+  function confirmAction(event, message) {
+    if (!confirm(message)) {
+      event.preventDefault(); // stop form submission
+    }
+  }
+</script>
+

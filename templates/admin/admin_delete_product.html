@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Product - Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background-color: #003366;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 100px auto;
+      background-color: white;
+      color: #003366;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .btn-group {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-cancel {
+      background-color: #ccc;
+      color: #003366;
+    }
+
+    .btn-delete {
+      background-color: #cc0000;
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Confirm Delete</h2>
+    <p>Are you sure you want to delete the product: <strong>{{ product.name }}</strong>?</p>
+
+    <form method="POST">
+      <div class="btn-group">
+        <button type="submit" class="btn btn-delete">Yes, Delete</button>
+        <a href="{{ url_for('admin_inventory') }}" class="btn btn-cancel">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Comfeex Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #f2f6fc;
+      color: #003366;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #002244;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 6px 10px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #28a745;
+      text-shadow: 0 0 5px #28a745;
+    }
+
+    .register-box {
+      max-width: 500px;
+      margin: 30px auto;
+      background-color: white;
+      color: #003366;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .register-box h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .form-row .half {
+      flex: 1;
+      min-width: 48%;
+    }
+
+    .register-box label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .register-box input,
+    .register-box select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    .register-box input:focus,
+    .register-box select:focus {
+      border-color: #28a745;
+      outline: none;
+    }
+
+    .password-rules {
+      font-size: 0.85em;
+      margin-top: 10px;
+    }
+
+    .register-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 25px;
+      transition: background-color 0.3s;
+    }
+
+    .register-box button:hover {
+      background-color: #002244;
+    }
+
+    .register-box small {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 40px; /* space for the eye */
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .toggle-password:hover {
+      color: #161481;
+    }
+
+
+    .flash-danger {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .flash-success {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #cccccc;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+      }
+
+      .form-row .half {
+        min-width: 100%;
+      }
+
+      .register-box {
+        margin: 20px 15px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Comfeex Enterprises</div>
+  <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('products') }}">Products</a>
+    <a href="{{ url_for('cart') }}">Cart</a>
+    <a href="{{url_for('contact')}}">Contact Us</a>
+    <a href="{{ url_for('home') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+  </nav>
+</header>
+
+<form class="register-box" method="POST" action="/register">
+  <h2>Register to Comfeex Enterprises</h2>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <p class="flash-{{ category }}">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+
+  <div class="form-row">
+  <div class="half">
+    <label>First Name *</label>
+    <input type="text" 
+           name="first_name" 
+           required 
+           pattern="[A-Za-z]+" 
+           title="First name should only contain letters">
+  </div>
+  <div class="half">
+    <label>Second Name *</label>
+    <input type="text" 
+           name="second_name" 
+           required 
+           pattern="[A-Za-z]+" 
+           title="Second name should only contain letters">
+  </div>
+  </div>
+
+
+  <label>Email *</label>
+  <input type="email" name="email" required>
+
+  <label>Country *</label>
+  <select name="country" required onchange="loadCounties(this.value)">
+    <option value="Kenya" selected>Kenya</option>
+  </select>
+
+  <div class="form-row">
+    <div class="half">
+      <label>County *</label>
+      <select name="county" id="county" required onchange="loadTowns(this.value)">
+        <option value="">Select County</option>
+      </select>
+    </div>
+    <div class="half">
+      <label>Town *</label>
+      <select name="town" id="town" required>
+        <option value="">Select Town</option>
+      </select>
+    </div>
+  </div>
+
+
+  <label>Phone Number *</label>
+  <div class="form-row">
+    <div style="width: 100px;">
+      <select name="code" required>
+        <option value="+254">+254</option>
+      </select>
+  </div>
+  <div style="flex: 1;">
+    <input type="text" 
+           name="phone" 
+           required 
+           placeholder="7XXXXXXXX" 
+           pattern="\d{9}" 
+           maxlength="9" 
+           minlength="9" 
+           inputmode="numeric">
+    <small style="color: gray; font-size: 12px;">Enter 9 digits only, e.g., 712345678</small>
+    </div>
+  </div>
+
+
+
+
+  <label>Create Password *</label>
+  <div class="password-wrapper">
+    <input type="password" id="password" name="password" oninput="validatePassword()" required>
+    <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
+  </div>
+  <small id="lengthWarning" style="color: red; display: none;">Password must be at least 8 characters long</small>
+
+  <label>Confirm Password *</label>
+  <div class="password-wrapper">
+    <input type="password" id="confirm_password" name="confirm_password" required>
+    <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('confirm_password', this)"></i>
+  </div>
+
+
+  <div id="rules" class="password-rules">
+    <p id="rule1">❌ At least one uppercase letter</p>
+    <p id="rule2">❌ At least one number</p>
+    <p id="rule3">❌ At least one lowercase letter</p>
+    <p id="rule4">❌ At least one special character</p>
+  </div>
+
+  <button type="submit">Register</button>
+  <small>Already Have an Account? <a href="{{ url_for('home')}}">Login</a></small>
+</form>
+
+<footer>
+  &copy; 2025 Comfeex Enterprises. All rights reserved.
+</footer>
+
+<script>
+  function validatePassword() {
+    const pw = document.getElementById("password").value;
+    const lengthWarning = document.getElementById("lengthWarning");
+
+
+      // Show warning if < 8 characters
+    if (pw.length > 0 && pw.length < 8) {
+      lengthWarning.style.display = "block";
+    } else {
+      lengthWarning.style.display = "none";
+    }
+
+    const rules = [
+      { id: "rule1", regex: /[A-Z]/, text: "At least one uppercase letter" },
+      { id: "rule2", regex: /\d/, text: "At least one number" },
+      { id: "rule3", regex: /[a-z]/, text: "At least one lowercase letter" },
+      { id: "rule4", regex: /[^a-zA-Z0-9]/, text: "At least one special character" }
+    ];
+    rules.forEach(rule => {
+      const el = document.getElementById(rule.id);
+      if (rule.regex.test(pw)) {
+        el.style.color = "green";
+        el.textContent = "✔️ " + rule.text;
+      } else {
+        el.style.color = "red";
+        el.textContent = "❌ " + rule.text;
+      }
+    });
+  }
+</script>
+<script>
+  const kenyaData = {
+    "Nairobi": ["Westlands", "Kibera", "Kasarani", "Lang'ata", "Embakasi"],
+    "Mombasa": ["Mvita", "Likoni", "Changamwe", "Kisauni"],
+    "Kisumu": ["Kisumu Central", "Kisumu East", "Kisumu West"],
+    "Nakuru": ["Nakuru Town East", "Nakuru Town West", "Naivasha", "Gilgil"],
+    "Kiambu": ["Thika", "Ruiru", "Kiambu Town", "Gatundu"],
+    "Machakos": ["Machakos Town", "Kangundo", "Mwala", "Masinga"],
+    "Kajiado": ["Ngong", "Kitengela", "Kajiado Town"],
+    "Uasin Gishu": ["Eldoret East", "Eldoret West", "Soy", "Kapseret"],
+    "Meru": ["Meru Town", "Maua", "Nkubu", "Timau"],
+    "Embu": ["Embu Town", "Runyenjes", "Mbeere"],
+    "Nyeri": ["Nyeri Town", "Karatina", "Othaya", "Mukurweini"],
+    "Murang'a": ["Murang'a Town", "Kangema", "Kigumo", "Maragua"],
+    "Kirinyaga": ["Kerugoya", "Kutus", "Sagana", "Wanguru"],
+    "Nyandarua": ["Ol Kalou", "Njabini", "Engineer"],
+    "Laikipia": ["Nanyuki", "Rumuruti", "Nyahururu"],
+    "Bomet": ["Bomet Town", "Sotik", "Mulot"],
+    "Kericho": ["Kericho Town", "Litein", "Londiani"],
+    "Narok": ["Narok Town", "Kilgoris", "Ololulunga"],
+    "Trans Nzoia": ["Kitale", "Kiminini", "Endebess"],
+    "Bungoma": ["Bungoma Town", "Webuye", "Kimilili", "Chwele"],
+    "Busia": ["Busia Town", "Nambale", "Port Victoria"],
+    "Siaya": ["Siaya Town", "Bondo", "Ugunja", "Usenge"],
+    "Homa Bay": ["Homa Bay Town", "Mbita", "Kendu Bay"],
+    "Migori": ["Migori Town", "Awendo", "Kehancha"],
+    "Kisii": ["Kisii Town", "Ogembo", "Suneka"],
+    "Nyamira": ["Nyamira Town", "Keroka", "Ikonge"]
+  };
+  function loadCounties() {
+    const countySelect = document.getElementById('county');
+    countySelect.innerHTML = `<option value="">Select County</option>`;
+    for (const county in kenyaData) {
+      countySelect.innerHTML += `<option value="${county}">${county}</option>`;
+    }
+  }
+  function loadTowns(county) {
+    const townSelect = document.getElementById('town');
+    townSelect.innerHTML = `<option value="">Select Town</option>`;
+    if (kenyaData[county]) {
+      kenyaData[county].forEach(town => {
+        townSelect.innerHTML += `<option value="${town}">${town}</option>`;
+      });
+    }
+  }
+  window.onload = function () {
+    loadCounties();
+  };
+
+
+  function togglePassword(inputId, iconElement) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+      input.type = "text";
+      iconElement.classList.remove("fa-eye");
+      iconElement.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      iconElement.classList.remove("fa-eye-slash");
+      iconElement.classList.add("fa-eye");
+    }
+  }
+</script>
+</body>
+</html>

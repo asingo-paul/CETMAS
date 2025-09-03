@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Suppliers Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #003366;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #002244;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 6px 10px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .supplier-section {
+      background-color: white;
+      color: #003366;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 1000px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .supplier-header {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+
+    .products-grid {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .products-grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .products-grid::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    .products-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .product-card {
+      flex: 0 0 auto;
+      background-color: #f8f8f8;
+      color: #003366;
+      padding: 10px;
+      border-radius: 8px;
+      width: 180px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      animation: zoomIn 0.5s ease forwards;
+      animation-delay: calc(var(--i) * 0.1s);
+      opacity: 0;
+      scroll-snap-align: start;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .product-card h4 {
+      margin: 10px 0 5px;
+      font-size: 1em;
+    }
+
+    .product-card p {
+      margin: 4px 0;
+      font-size: 0.85em;
+    }
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #cccccc;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .products-grid {
+        gap: 10px;
+      }
+
+      .product-card {
+        width: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Comfeex Admin</div>
+    <nav>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('add_product') }}">Add Product</a>
+      <a href="{{ url_for('admin_orders') }}">Orders</a>
+      <a href="{{ url_for('admin_inventory') }}">Inventory</a>
+      <a href="{{ url_for('suppliers') }}">Suppliers</a>
+      <a href="{{ url_for('logout_admin') }}" class="btn btn-danger">Logout</a>
+
+
+    </nav>
+  </header>
+
+  {% for supplier in suppliers %}
+    <section class="supplier-section">
+      <div class="supplier-header">
+        <h2>{{ supplier.name }} ({{ supplier.company }})</h2>
+        <p><strong>Email:</strong> {{ supplier.email }} |
+           <strong>Phone:</strong> {{ supplier.phone }}</p>
+      </div>
+
+      <div class="products-grid">
+        {% for product in supplier.products %}
+          <div class="product-card" style="--i: {{ loop.index }}">
+            <img src="{{ url_for('static', filename='uploads/' + product.image) }}" alt="Product Image">
+            <h4>{{ product.name }}</h4>
+            <p>{{ product.description }}</p>
+            <p><strong>Stock:</strong> {{ product.stock }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+
+  <footer>
+    &copy; 2025 Comfeex Enterprises. All rights reserved.
+  </footer>
+</body>
+</html>

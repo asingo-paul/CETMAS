@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile - Comfeex Enterprises</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #f0f6ff;
+      color: #003366;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background-color: #002244;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 15px 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.6em;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 6px 10px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #28a745;
+    }
+
+    .main-content {
+      padding: 60px 20px;
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #002244;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin: 15px 0;
+    }
+
+    strong {
+      color: #003366;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #003366;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #002244;
+    }
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #cccccc;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        justify-content: center;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Comfeex Logo">
+    Comfeex Enterprises
+  </div>
+  <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('products') }}">Products</a>
+    <a href="{{ url_for('cart') }}">Cart</a>
+    <a href="{{ url_for('contact') }}">Contact Us</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <h2>Welcome, {{ user.first_name }}!</h2>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Phone:</strong> {{ user.phone }}</p>
+  <p><strong>County:</strong> {{ user.county }}</p>
+  <p><strong>Town/City:</strong> {{ user.town }}</p>
+  <a href="{{ url_for('products') }}" class="btn">Continue Shopping</a>
+  <a href="{{ url_for('logout') }}" class="btn" style="background-color:#dc3545;">Logout</a>
+</div>
+
+<footer>
+  &copy; 2025 Comfeex Enterprises. All rights reserved.
+</footer>
+
+</body>
+</html>

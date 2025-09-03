@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #003366;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #002244;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 6px 10px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      color: #003366;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .main-section {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 30px 20px;
+      gap: 20px;
+    }
+
+    .product-card {
+      background-color: white;
+      color: #003366;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-card img {
+      max-width: 100%;
+      border-radius: 10px;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-card button {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .product-card button:hover {
+      background-color: #002244;
+    }
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #cccccc;
+    }
+
+    @media (max-width: 768px) {
+      .main-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .profile-icon {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+    <header>
+    <div class="logo">Comfeex Admin</div>
+    <nav>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('add_product') }}">Add Product</a>
+      <a href="{{ url_for('admin_orders') }}">orders</a>
+      <a href="{{ url_for('admin_inventory') }}">Inventory</a>
+      <a href="{{ url_for('suppliers') }}">Suppliers</a>
+      <a href="{{ url_for('logout_admin') }}" class="btn btn-danger">Logout</a>
+
+
+    </nav>
+  </header>
+
+  <section class="main-section">
+    {% for product in items %}
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='uploads/' + product.image) }}" alt="Product">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <strong>KSH {{ product.price }}</strong><br>
+        <strong>stock: {{ product.stock }}</strong><br>
+        
+        
+      </div>
+    {% endfor %}
+  </section>
+
+  <footer>
+    &copy; 2025 Comfeex Enterprises. All rights reserved.
+  </footer>
+</body>
+</html>

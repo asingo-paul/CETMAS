@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Successful</title>
+  <meta http-equiv="refresh" content="3;url={{ url_for('login') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 80px;
+    }
+    .success-box {
+      display: inline-block;
+      background: #e6ffed;
+      border: 1px solid #00a86b;
+      padding: 30px 50px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+    .countdown {
+      font-size: 1.2em;
+      margin-top: 15px;
+      color: #161481;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-box">
+    <h2>Registration Successful!</h2>
+    <p>Welcome, <b>{{ email }}</b></p>
+    <p>You will be redirected to the login page shortly.</p>
+    <div class="countdown">
+      Redirecting in <span id="countdown">2</span> seconds...
+    </div>
+  </div>
+
+  <script>
+    let seconds = 2;
+    const countdownEl = document.getElementById("countdown");
+
+    setInterval(() => {
+      seconds--;
+      if (seconds > 0) {
+        countdownEl.textContent = seconds;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Comfeex Enterprises</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #f0f6ff;
+      color: #003366;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background-color: #002244;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 15px 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: rgb(243, 237, 237);
+      text-decoration: none;
+      font-size: 1em;
+      padding: 6px 10px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #28a745;
+    }
+
+    .main-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .main-content {
+      flex: 1 1 55%;
+      max-width: 55%;
+    }
+
+    .main-content h1 {
+      font-size: 2.4em;
+      margin-bottom: 20px;
+    }
+
+    .main-content p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .images-section img {
+      max-width: 280px;
+      width: 100%;
+      border: 4px solid white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .images-section img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-box {
+      flex: 1 1 38%;
+      max-width: 360px;
+      background-color: white;
+      color: black;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .login-box label {
+      display: block;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #161481;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 15px;
+    }
+
+    .login-box button:hover {
+      background-color: #002244;
+    }
+
+    .login-box small {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9em;
+    }
+
+    .login-box small a {
+      color: #161481;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-box small a:hover {
+      text-decoration: underline;
+    }
+
+    .flash-message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      text-align: center;
+    }
+
+    .flash-message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .flash-message.danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 40px; /* space for the icon */
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .toggle-password:hover {
+      color: #161481;
+    }
+
+
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #cccccc;
+    }
+
+    @media (max-width: 768px) {
+      .main-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-content, .login-box {
+        max-width: 100%;
+      }
+
+      .logo img {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='placing.jpeg') }}" alt="Comfeex Logo">
+      Comfeex Enterprises
+    </div>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('cart') }}">Cart</a>
+      <a href="{{url_for('contact')}}">Contact Us</a>
+      <a href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{url_for('admin_login')}}">Admin</a>
+    </nav>
+  </header>
+
+  <div class="main-section">
+    <div class="main-content">
+      <h1>Welcome to Comfeex</h1>
+      <p>
+        Comfeex Enterprises is a sole proprietor business that supplies
+        various types of inks and toner cartridges primarily to secondary schools,
+        private institutions, and individuals.
+      </p>
+      <div class="images-section">
+        <img src="{{ url_for('static', filename='img2.jpeg') }}" alt="Ink Supplies">
+        <img src="{{ url_for('static', filename='img3.jpeg') }}" alt="Toner Cartridges">
+      </div>
+    </div>
+
+    <form class="login-box" method="POST" action="/login">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <h2>COMFEEX LOGIN</h2>
+      
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required placeholder="Enter your email">
+
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" required placeholder="Enter your password">
+        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+      </div>
+
+
+      
+      <button type="submit">Login</button>
+      <button type="button" onclick="location.reload();" style="background-color: red; color: white;">Reset</button>
+
+      <small>
+        Forgot Password? <a href="{{ url_for('forgot_password') }}">Click Here</a><br>
+        Don't have an account? <a href="{{ url_for('register') }}">Register</a>
+      </small>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 Comfeex Enterprises. All rights reserved.
+  </footer>
+
+  <script>
+    // function togglePassword() {
+    //   const input = document.getElementById("password");
+    //   input.type = input.type === "password" ? "text" : "password";
+    // }
+
+
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+
+      // Toggle icon class
+      this.classList.toggle("fa-eye");
+      this.classList.toggle("fa-eye-slash");
+    });
+  </script>
+</body>
+</html>

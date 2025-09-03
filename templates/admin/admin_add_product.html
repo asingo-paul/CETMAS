@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Product - Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-color: #003366;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #002244;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #004080;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      color: #003366;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .form-section {
+      padding: 40px 25px;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: white;
+      color: #003366;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.6em;
+    }
+
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-section input,
+    .form-section textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    .form-section input[type="file"] {
+      border: none;
+      background-color: #f4f4f4;
+    }
+
+    .form-section button {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-section button:hover {
+      background-color: #001f4d;
+    }
+
+    footer {
+      background-color: #001122;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.95em;
+      color: #cccccc;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .profile-icon {
+        display: none;
+      }
+
+      .form-section {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Comfeex Admin</div>
+    <nav>
+      
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('add_product') }}">Add Product</a>
+      <a href="{{ url_for('admin_orders') }}">orders</a>
+      <a href="{{ url_for('admin_inventory') }}">Inventory</a>
+      <a href="{{ url_for('suppliers') }}">Suppliers</a>
+      <a href="{{ url_for('logout_admin') }}" class="btn btn-danger">Logout</a>
+
+
+    </nav>
+  </header>
+
+  <section class="form-section">
+    <h2>Add New Product</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Product Name" required>
+      <textarea name="description" placeholder="Product Description" rows="4" required></textarea>
+      <input type="number" name="price" step="0.01" placeholder="Price" required>
+      <input type="file" name="image" accept="image/*" required>
+      <input type="number" name="stock" placeholder="Stock Quantity" required>
+
+      <button type="submit">Add Product</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Comfeex Enterprises. Admin Panel.
+  </footer>
+</body>
+</html>
