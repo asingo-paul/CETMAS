@@ -499,6 +499,7 @@ def admin_orders():
             u.county,
             u.town,
             p.name AS product,
+            p.price,              -- get price of product
             o.quantity,
             o.created_at,
             o.confirmed
@@ -510,22 +511,21 @@ def admin_orders():
     orders = cursor.fetchall()
 
     grouped_orders = defaultdict(list)
-
     for order in orders:
         grouped_orders[order['user_id']].append(order)
 
-    # aggregate product quantities per user
     final_orders = {}
     for user_id, user_orders in grouped_orders.items():
         product_counter = Counter()
+        total_price = 0
+
         for o in user_orders:
             product_counter[o['product']] += o['quantity']
+            total_price += o['quantity'] * o['price']  # calc total
 
-        # turn into "product (qty)" strings
         product_list = [f"{prod} ({qty})" for prod, qty in product_counter.items()]
-
-        # keep one representative order for user details
         base_order = user_orders[0]
+
         final_orders[user_id] = {
             "user": f"{base_order['first_name']} {base_order['second_name']}",
             "county": base_order['county'],
@@ -533,12 +533,11 @@ def admin_orders():
             "products": ", ".join(product_list),
             "date": base_order['created_at'],
             "confirmed": base_order['confirmed'],
-            "id": base_order['id'],  # keep for confirm/delete
+            "id": base_order['id'],
+            "total": total_price,   # add total
         }
 
     return render_template('admin/admin_orders.html', grouped_orders=final_orders)
-
-
 
 
 
@@ -670,10 +669,12 @@ def confirm_order(order_id):
     mysql.connection.commit()
     return redirect(url_for('admin_orders'))
 
-@app.route('/admin/orders/delete/<int:order_id>', methods=['POST'])
-def delete_order(order_id):
+    
+
+@app.route('/admin/orders/delete/<int:user_id>', methods=['POST'])
+def delete_order(user_id):
     cursor = mysql.connection.cursor()
-    cursor.execute("DELETE FROM orders WHERE id=%s", (order_id,))
+    cursor.execute("DELETE FROM orders WHERE email = (SELECT email FROM users WHERE id=%s)", (user_id,))
     mysql.connection.commit()
     return redirect(url_for('admin_orders'))
 
@@ -682,6 +683,7 @@ def delete_order(order_id):
 
 
 
+
 #Run App
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

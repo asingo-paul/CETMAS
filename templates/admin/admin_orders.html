@@ -187,33 +187,37 @@
         <th>County</th>
         <th>Town</th>
         <th>Products</th>
+        <th>Total Price</th>   <!-- new -->
         <th>Date</th>
         <th>Actions</th>
       </tr>
-    </thead>
-    <tbody>
-      {% for user_id, order in grouped_orders.items() %}
-      <tr>
-        <td>{{ order.user }}</td>
-        <td>{{ order.county }}</td>
-        <td>{{ order.town }}</td>
-        <td>{{ order.products }}</td>
-        <td>{{ order.date }}</td>
-        <td>
-          {% if order.confirmed %}
-            ✅
-          {% else %}
-          <form method="POST" action="{{ url_for('confirm_order', order_id=order.id) }}" style="display:inline;" onsubmit="confirmAction(event, 'Are you sure you want to confirm this order?')">
-            <button type="submit" class="btn btn-confirm">Confirm</button>
-          </form>
-          {% endif %}
-          <form method="POST" action="{{ url_for('delete_order', order_id=order.id) }}" style="display:inline;">
-            <button type="submit" class="btn btn-delete">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
+      </thead>
+      <tbody>
+        {% for user_id, order in grouped_orders.items() %}
+        <tr>
+          <td>{{ order.user }}</td>
+          <td>{{ order.county }}</td>
+          <td>{{ order.town }}</td>
+          <td>{{ order.products }}</td>
+          <td>Ksh {{ order.total }}</td>  <!-- show total -->
+          <td>{{ order.date }}</td>
+          <td>
+            {% if order.confirmed %}
+              ✅
+            {% else %}
+            <form method="POST" action="{{ url_for('confirm_order', order_id=order.id) }}" style="display:inline;" onsubmit="confirmAction(event, 'Are you sure you want to confirm this order?')">
+              <button type="submit" class="btn btn-confirm">Confirm</button>
+            </form>
+            {% endif %}
+            <form method="POST" action="{{ url_for('delete_order', user_id=user_id) }}" style="display:inline;">
+              <button type="submit" class="btn btn-delete">Delete</button>
+
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
 
   </table>
 </section>
